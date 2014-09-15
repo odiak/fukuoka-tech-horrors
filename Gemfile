@@ -6,6 +6,8 @@ gem "sqlite3"
 gem "rake"
 gem "twitter"
 gem "omniauth-twitter"
+gem "sinatra-contrib", require: false
+gem "rack-parser"
 
 group :development do
   gem "shotgun"
