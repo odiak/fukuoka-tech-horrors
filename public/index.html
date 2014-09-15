@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html ng-app="Horror">
+  <head>
+    <meta charset="utf-8">
+    <title>本当にあった怖い話</title>
+    <!-- <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="/lib/bootswatch/darkly/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/angular/angular.min.js"></script>
+    <script src="/lib/angular-route/angular-route.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="/js/app.js"></script>
+  </head>
+  <body>
+    <div class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">本当にあった怖い話</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/stories/recent">最新の投稿</a></li>
+            <li><a href="/stories/popular">人気の投稿</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/stories/new">怖い話を投稿する</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle">odiak <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="">hoge</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container" ng-view>
+    </div>
+  </body>
+</html>

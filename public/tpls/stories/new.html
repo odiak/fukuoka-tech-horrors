@@ -1,0 +1,18 @@
+<h2>怖い話を投稿</h2>
+
+<form name="newStory.form" novalidate>
+  <div class="form-group">
+    <label>タイトル</label>
+    <input type="text" class="form-control" ng-model="newStory.title"
+        name="title" required>
+  </div>
+  <div class="form-group">
+    <label>本文</label>
+    <textarea class="form-control" rows="7" ng-model="newStory.body"
+        name="body" required></textarea>
+  </div>
+  <button class="btn btn-default" ng-disabled="newStory.form.$invalid"
+      ng-click="newStory.save()">
+    投稿
+  </button>
+</form>
