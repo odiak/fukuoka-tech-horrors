@@ -25,12 +25,20 @@
             <li><a href="/stories/popular">人気の投稿</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="/stories/new">怖い話を投稿する</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle">odiak <span class="caret"></span></a>
+            <li ng-if="currentUser.id">
+              <a href="/stories/new">怖い話を投稿する</a>
+            </li>
+            <li class="dropdown" ng-if="currentUser.id">
+              <a href="#" class="dropdown-toggle">
+                {{currentUser.screen_name}} 
+                <span class="caret"></span>
+              </a>
               <ul class="dropdown-menu">
-                <li><a href="">hoge</a></li>
+                <li><a href="/logout" target="_self">ログアウト</a></li>
               </ul>
+            </li>
+            <li ng-if="currentUser._loaded && !currentUser.id">
+              <a href="/login" target="_self">Twitterでログイン</a>
             </li>
           </ul>
         </div>

@@ -103,8 +103,12 @@ get '/auth/failure' do
   'auth failure'
 end
 
-get '/api/user' do
-  json current_user.serialize
+get '/api/current_user' do
+  if signed_in?
+    json current_user.serialize
+  else
+    status 404
+  end
 end
 
 post '/api/stories' do

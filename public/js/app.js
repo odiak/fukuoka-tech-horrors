@@ -33,6 +33,26 @@ app.config(['$routeProvider', '$locationProvider',
     .otherwise('/');
 }]);
 
+app.factory('currentUser', ['$http', function($http) {
+  var currentUser = {};
+  $http.get('/api/current_user')
+  .success(function(user) {
+    var prop;
+    for (prop in user) {
+      currentUser[prop] = user[prop];
+    }
+    currentUser._loaded = true
+  })
+  .error(function() {
+    currentUser._loaded = true;
+  });
+  return currentUser;
+}]);
+
+app.run(['$rootScope', 'currentUser', function($rootScope, currentUser) {
+  $rootScope.currentUser = currentUser;
+}]);
+
 app.controller('IndexCtrl', ['$http', function($http) {
 }]);
 
