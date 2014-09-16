@@ -8,6 +8,7 @@ gem 'twitter'
 gem 'omniauth-twitter'
 gem 'sinatra-contrib', require: false
 gem 'rack-parser'
+gem 'unicorn'
 
 group :development do
   gem 'shotgun'

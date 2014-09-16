@@ -29,6 +29,7 @@ GEM
     http_parser.rb (0.6.0)
     i18n (0.6.11)
     json (1.8.1)
+    kgio (2.9.2)
     memoizable (0.4.2)
       thread_safe (~> 0.3, >= 0.3.1)
     minitest (5.4.1)
@@ -52,6 +53,7 @@ GEM
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
+    raindrops (0.13.0)
     rake (10.3.2)
     ripl (0.7.1)
       bond (~> 0.5.1)
@@ -99,6 +101,10 @@ GEM
       simple_oauth (~> 0.2.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    unicorn (4.8.3)
+      kgio (~> 2.6)
+      rack
+      raindrops (~> 0.7)
 
 PLATFORMS
   ruby
@@ -114,3 +120,4 @@ DEPENDENCIES
   sqlite3
   tux
   twitter
+  unicorn
