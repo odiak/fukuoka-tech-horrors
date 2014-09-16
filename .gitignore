@@ -5,3 +5,6 @@
 /vendor/bin
 /settings.rb
 /public/lib
+*.pid
+*.sock
+*.log
