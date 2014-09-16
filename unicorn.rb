@@ -1,6 +1,6 @@
 dir = File.dirname(__FILE__)
 
-worker_process 2
+worker_processes 2
 working_directory dir
 
 timeout 300
