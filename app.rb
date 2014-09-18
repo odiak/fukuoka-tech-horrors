@@ -41,6 +41,26 @@ class Story < ActiveRecord::Base
   end
 end
 
+class Voting < ActiveRecord::Base
+  belongs_to :user
+  belongs_to :story
+
+  after_create :increment_votes_count
+  after_destroy :decrement_voting_count
+
+private
+
+  def increment_votes_count
+    return unless story
+    Story.increment_counter(:votes_count, story_id)
+  end
+
+  def decrement_voting_count
+    return unless story
+    Story.decrement_counter(:votes_count, story_id)
+  end
+end
+
 configure do
   set :app_file, __FILE__
   set :database, adapter: 'sqlite3', database: 'database.sqlite3'
