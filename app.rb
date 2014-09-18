@@ -199,7 +199,24 @@ put '/api/stories/:id' do
   end
 end
 
-post '/api/stories/:id/vote' do
+put '/api/stories/:id/vote' do
+  begin
+    Voting.create(user: current_user, story: Story.find_by(id: params[:id]))
+  rescue ActiveRecord::RecordNotUnique
+    json voted: false
+  else
+    json voted: true
+  end
+end
+
+put '/api/stories/:id/unvote' do
+  voting = Voting.find_by(user: current_user, story_id: params[:id])
+  if voting
+    voting.destroy
+    json unvoted: true
+  else
+    json unvoted: false
+  end
 end
 
 
