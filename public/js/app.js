@@ -20,15 +20,19 @@ app.config(['$routeProvider', '$locationProvider',
     })
     .when('/stories/popular', {
       controller: 'PopularStoriesCtrl as popularStories',
-      templateUrl: '/tpls/popular_stories.html',
+      templateUrl: '/tpls/stories/popular.html',
     })
     .when('/stories/recent', {
       controller: 'RecentStoriesCtrl as recentStories',
-      templateUrl: '/tpls/recent_stories.html',
+      templateUrl: '/tpls/stories/recent.html',
     })
     .when('/stories/:storyId', {
       controller: 'SingleStoryCtrl as singleStory',
       templateUrl: '/tpls/stories/single.html',
+    })
+    .when('/stories/:storyId/edit', {
+      controller: 'EditStoryCtrl as editStory',
+      templateUrl: '/tpls/stories/edit.html',
     })
     .otherwise('/');
 }]);
