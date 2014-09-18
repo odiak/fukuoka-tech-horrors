@@ -27,7 +27,7 @@ class Story < ActiveRecord::Base
   validates :body, presence: true
   validates :author, presence: true
 
-  def as_json(**options)
+  def as_json(myself: nil, **options)
     {
       id: id,
       title: title,
@@ -36,6 +36,7 @@ class Story < ActiveRecord::Base
       votes_count: votes_count,
       created_at: created_at,
       updated_at: updated_at,
+      voted: myself ? Voting.exists?(user_id: myself.id, story_id: id) : nil,
     }
   end
 end
