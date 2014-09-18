@@ -9,7 +9,7 @@ require './settings'
 class User < ActiveRecord::Base
   has_many :stories
 
-  def serialize(**options)
+  def as_json(**options)
     {
       id: id,
       uid: uid,
@@ -26,12 +26,12 @@ class Story < ActiveRecord::Base
   validates :body, presence: true
   validates :author, presence: true
 
-  def serialize(**options)
+  def as_json(**options)
     {
       id: id,
       title: title,
       body: body,
-      author: author.serialize(**options),
+      author: author.as_json(**options),
       votes_count: votes_count,
       created_at: created_at,
       updated_at: updated_at,
@@ -105,7 +105,7 @@ end
 
 get '/api/current_user' do
   if signed_in?
-    json current_user.serialize
+    json current_user.as_json
   else
     status 404
   end
@@ -120,7 +120,7 @@ post '/api/stories' do
   story.body = params['body']
 
   if story.save
-    json story.serialize
+    json story.as_json
   else
     status 422
     json error: story.errors.to_a.first
@@ -132,7 +132,7 @@ get '/api/stories/recent' do
   offset = params['limit'].to_i
   stories = Story.order(created_at: :desc).limit(limit).offset(offset)
 
-  json stories: stories.map(&:serialize)
+  json stories: stories.map(&:as_json)
 end
 
 get '/api/stories/top' do
@@ -140,14 +140,14 @@ get '/api/stories/top' do
   offset = params['limit'].to_i
   stories = Story.order(votes_count: :desc).limit(limit).offset(offset)
 
-  json stories: stories.map(&:serialize)
+  json stories: stories.map(&:as_json)
 end
 
 get '/api/stories/:id' do
   story = Story.find_by(id: params['id'])
   halt 404 unless story
 
-  json story.serialize
+  json story.as_json
 end
 
 put '/api/stories/:id' do
@@ -161,7 +161,7 @@ put '/api/stories/:id' do
   story.body = params['body']
 
   if story.save
-    json story.serialize
+    json story.as_json
   else
     status 422
     json error: story.errors.to_a.first
