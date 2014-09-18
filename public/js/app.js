@@ -76,7 +76,22 @@ app.run(['$rootScope', 'currentUser', function($rootScope, currentUser) {
   $rootScope.currentUser = currentUser;
 }]);
 
+
 app.controller('IndexCtrl', ['$http', function($http) {
+  var _this = this;
+  this.limit = 5;
+  this.recentStories;
+  this.popularStories;
+
+  $http.get('/api/stories/recent', {params: {limit: this.limit}})
+  .success(function(data) {
+    _this.recentStories = data.stories;
+  });
+
+  $http.get('/api/stories/top', {params: {limit: this.limit}})
+  .success(function(data) {
+    _this.popularStories = data.stories;
+  });
 }]);
 
 app.controller('NewStoryCtrl', ['$http', '$location',
