@@ -1,6 +1,28 @@
-<div class="story story_single" ng-show="singleStory.story">
-  <h2 class="title">{{singleStory.story.title}}</h2>
-  <p>By {{singleStory.story.author.screen_name}}</p>
-  <p>Votes: {{singleStory.story.votes_count}}</p>
+<div class="single_story" ng-show="singleStory.story">
+  <h2 class="title">{{singleStory.story.title}}
+    &nbsp;
+    <a ng-href="/stories/{{singleStory.story.id}}/edit"
+        ng-if="currentUser.id == singleStory.story.author.id"
+        class="edit_link">(編集する)</a>
+  </h2>
+  <img ng-src="{{singleStory.story.author.icon}}" class="icon">
+  <span class="username">
+    {{singleStory.story.author.name}}&nbsp;
+    <span class="text-muted">@{{singleStory.story.author.screen_name}}</span>
+  </span>
+  <button class="btn btn-sm btn-primary"
+      ng-click="singleStory.vote()"
+      ng-if="!singleStory.story.voted">
+    <i class="fa fa-thumbs-up fa-lg" ng-if="!singleStory.story.voted"></i>
+    <i class="fa fa-check fa-lg" ng-if="singleStory.story.voted"></i>
+    こわいね
+  </button>
+  <button class="btn btn-sm btn-primary"
+      ng-click="singleStory.unvote()"
+      ng-if="singleStory.story.voted">
+    <i class="fa fa-times fa-lg"></i>
+    こわいねを取り消す
+  </button>
+  <span class="votes_counter">{{singleStory.story.votes_count}}</span>
   <div class="body">{{singleStory.story.body}}</div>
 </div>
