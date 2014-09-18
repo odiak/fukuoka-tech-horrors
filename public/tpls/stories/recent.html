@@ -1,0 +1,8 @@
+<div class="stories">
+  <h2>最新の投稿</h2>
+  <div ng-repeat="story in recentStories.stories" class="story" story></div>
+  <p ng-if="!recentStories.loadingStories && !recentStories.noMoreStories">
+    <a href="" ng-click="recentStories.loadStories()">さらに投稿を読み込む</a>
+  </p>
+  <p ng-if="recentStories.loadingStories">読み込んでいます</p>
+</div>

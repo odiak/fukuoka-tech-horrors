@@ -94,6 +94,54 @@ app.controller('IndexCtrl', ['$http', function($http) {
   });
 }]);
 
+app.controller('RecentStoriesCtrl', ['$http', function($http) {
+  var _this = this, limit = 50;
+  this.loadingStories = false;
+  this.noMoreStories = false;
+  this.stories = []
+
+  this.loadStories = function() {
+    this.loadingStories = true
+    $http.get('/api/stories/recent', {
+      params: {limit: limit, offset: this.stories.length}
+    })
+    .success(function(data) {
+      var stories = data.stories;
+      _this.loadingStories = false;
+      Array.prototype.push.apply(_this.stories, stories);
+      if (stories.length < limit) {
+        _this.noMoreStories = true;
+      }
+    });
+  };
+
+  this.loadStories();
+}]);
+
+app.controller('PopularStoriesCtrl', ['$http', function($http) {
+  var _this = this, limit = 50;
+  this.noMoreStories = false;
+  this.loadingStories = false;
+  this.stories = []
+
+  this.loadStories = function() {
+    this.loadingStories = true
+    $http.get('/api/stories/top', {
+      params: {limit: limit, offset: this.stories.length}
+    })
+    .success(function(data) {
+      var stories = data.stories;
+      _this.loadingStories = false;
+      Array.prototype.push.apply(_this.stories, stories);
+      if (stories.length < limit) {
+        _this.noMoreStories = true;
+      }
+    });
+  };
+
+  this.loadStories();
+}]);
+
 app.controller('NewStoryCtrl', ['$http', '$location',
     function($http, $location) {
 
