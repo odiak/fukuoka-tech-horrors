@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
       uid: uid,
       screen_name: screen_name,
       name: name,
+      icon: icon,
     }
   end
 end
