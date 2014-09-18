@@ -157,6 +157,28 @@ app.controller('NewStoryCtrl', ['$http', '$location',
   };
 }]);
 
+app.controller('EditStoryCtrl', ['$http', '$location', '$routeParams',
+    function($http, $location, $routeParams) {
+
+  var _this = this;
+
+  $http.get('/api/stories/' + $routeParams.storyId)
+  .success(function(story) {
+    _this.story = story;
+  });
+
+  this.save = function() {
+    $http.put('/api/stories/' + this.story.id, {
+      title: this.story.title,
+      body: this.story.body,
+    }).success(function(story) {
+      $location.path('/stories/' + story.id);
+    }).error(function() {
+      alert('error');
+    });
+  };
+}]);
+
 app.controller('SingleStoryCtrl', ['$http', '$routeParams',
     function($http, $routeParams) {
 
