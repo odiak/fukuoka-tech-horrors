@@ -151,7 +151,7 @@ end
 
 get '/api/stories/recent' do
   limit = (params['limit'] || 10).to_i
-  offset = params['limit'].to_i
+  offset = params['offset'].to_i
   stories = Story
     .order(created_at: :desc)
     .limit(limit)
@@ -163,8 +163,9 @@ end
 
 get '/api/stories/top' do
   limit = (params['limit'] || 10).to_i
-  offset = params['limit'].to_i
+  offset = params['offset'].to_i
   stories = Story
+    .where.not(votes_count: 0)
     .order(votes_count: :desc, created_at: :asc)
     .limit(limit)
     .offset(offset)
