@@ -105,7 +105,7 @@ end
 
 get '/api/current_user' do
   if signed_in?
-    json current_user.as_json
+    json current_user
   else
     status 404
   end
@@ -120,7 +120,7 @@ post '/api/stories' do
   story.body = params['body']
 
   if story.save
-    json story.as_json
+    json story.as_json(myself: current_user)
   else
     status 422
     json error: story.errors.to_a.first
@@ -132,7 +132,7 @@ get '/api/stories/recent' do
   offset = params['limit'].to_i
   stories = Story.order(created_at: :desc).limit(limit).offset(offset)
 
-  json stories: stories.map(&:as_json)
+  json stories: stories.as_json(myself: current_user)
 end
 
 get '/api/stories/top' do
@@ -140,14 +140,14 @@ get '/api/stories/top' do
   offset = params['limit'].to_i
   stories = Story.order(votes_count: :desc).limit(limit).offset(offset)
 
-  json stories: stories.map(&:as_json)
+  json stories: stories.as_json(myself: current_user)
 end
 
 get '/api/stories/:id' do
   story = Story.find_by(id: params['id'])
   halt 404 unless story
 
-  json story.as_json
+  json story.as_json(myself: current_user)
 end
 
 put '/api/stories/:id' do
@@ -161,7 +161,7 @@ put '/api/stories/:id' do
   story.body = params['body']
 
   if story.save
-    json story.as_json
+    json story.as_json(myself: current_user)
   else
     status 422
     json error: story.errors.to_a.first
