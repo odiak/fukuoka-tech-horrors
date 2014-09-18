@@ -152,7 +152,11 @@ end
 get '/api/stories/recent' do
   limit = (params['limit'] || 10).to_i
   offset = params['limit'].to_i
-  stories = Story.order(created_at: :desc).limit(limit).offset(offset)
+  stories = Story
+    .order(created_at: :desc)
+    .limit(limit)
+    .offset(offset)
+    .includes(:author)
 
   json stories: stories.as_json(myself: current_user)
 end
@@ -160,7 +164,11 @@ end
 get '/api/stories/top' do
   limit = (params['limit'] || 10).to_i
   offset = params['limit'].to_i
-  stories = Story.order(votes_count: :desc).limit(limit).offset(offset)
+  stories = Story
+    .order(votes_count: :desc, created_at: :asc)
+    .limit(limit)
+    .offset(offset)
+    .includes(:author)
 
   json stories: stories.as_json(myself: current_user)
 end
