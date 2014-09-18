@@ -53,6 +53,25 @@ app.factory('currentUser', ['$http', function($http) {
   return currentUser;
 }]);
 
+app.directive('story', function() {
+  return {
+    restrict: 'A',
+    template: '\
+      <div class="title">\
+        <a ng-href="/stories/{{story.id}}">{{story.title}}</a>\
+      </div>\
+      <img class="icon" ng-src="{{story.author.icon}}">\
+      <span class="username">\
+        {{story.author.name}}&nbsp;\
+        <span class="text-muted">@{{story.author.screen_name}}</span>\
+      </span>\
+      <span class="label label-primary">\
+        {{story.votes_count}} こわいね\
+      </span>\
+    '
+  };
+});
+
 app.run(['$rootScope', 'currentUser', function($rootScope, currentUser) {
   $rootScope.currentUser = currentUser;
 }]);
