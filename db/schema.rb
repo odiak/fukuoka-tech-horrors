@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140918161057) do
+ActiveRecord::Schema.define(version: 20140919082018) do
 
   create_table "stories", force: true do |t|
     t.string   "title",       default: "", null: false
@@ -36,10 +36,11 @@ ActiveRecord::Schema.define(version: 20140918161057) do
   add_index "users", ["uid"], name: "index_users_on_uid", unique: true
 
   create_table "votings", force: true do |t|
-    t.integer  "user_id",    null: false
-    t.integer  "story_id",   null: false
+    t.integer  "user_id",                null: false
+    t.integer  "story_id",               null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "count",      default: 1, null: false
   end
 
   add_index "votings", ["user_id", "story_id"], name: "index_votings_on_user_id_and_story_id", unique: true
