@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140919082018) do
+ActiveRecord::Schema.define(version: 20140919094025) do
 
   create_table "stories", force: true do |t|
     t.string   "title",       default: "", null: false
@@ -23,14 +23,15 @@ ActiveRecord::Schema.define(version: 20140919082018) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "uid",                              null: false
-    t.string   "name",                default: "", null: false
-    t.string   "screen_name",                      null: false
-    t.string   "access_token",                     null: false
-    t.string   "access_token_secret",              null: false
-    t.string   "icon",                default: "", null: false
+    t.string   "uid",                                 null: false
+    t.string   "name",                default: "",    null: false
+    t.string   "screen_name",                         null: false
+    t.string   "access_token",                        null: false
+    t.string   "access_token_secret",                 null: false
+    t.string   "icon",                default: "",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "is_admin",            default: false, null: false
   end
 
   add_index "users", ["uid"], name: "index_users_on_uid", unique: true
