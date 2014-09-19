@@ -25,7 +25,17 @@ class Story < ActiveRecord::Base
 
   validates :title, presence: true
   validates :body, presence: true
-  validates :author, presence: true
+
+  before_save :check_user_id
+
+  def author(*args)
+    super || {
+      id: -1,
+      name: 'Anonymous',
+      screen_name: 'anonymous',
+      icon: '/anonymous.png',
+    }
+  end
 
   def as_json(myself: nil, **options)
     {
@@ -38,6 +48,12 @@ class Story < ActiveRecord::Base
       updated_at: updated_at,
       voted: myself ? Voting.exists?(user_id: myself.id, story_id: id) : nil,
     }
+  end
+
+private
+
+  def check_user_id
+    self.author_id ||= -1
   end
 end
 
@@ -79,7 +95,7 @@ end
 
 helpers do
   def current_user
-    session[:current_user]
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
 
   def signed_in?
@@ -96,7 +112,7 @@ get '/login' do
 end
 
 get '/logout' do
-  session[:current_user] = nil
+  session[:user_id] = nil
 
   redirect '/'
 end
@@ -111,7 +127,7 @@ get '/auth/twitter/callback' do
   user.icon = auth[:info][:image]
 
   if user.save
-    session[:current_user] = user
+    session[:user_id] = user.id
     redirect '/'
   else
     'error'
@@ -131,8 +147,6 @@ get '/api/current_user' do
 end
 
 post '/api/stories' do
-  ensure_signed_in!
-
   story = Story.new(author: current_user)
   p params
   story.title = params['title']
@@ -183,7 +197,7 @@ put '/api/stories/:id' do
 
   story = Story.find_by(id: params['id'])
   halt 404 unless story
-  halt 403 if story.author != current_user
+  halt 403 if story.author != current_user && !current_user.is_admin
 
   story.title = params['title']
   story.body = params['body']
