@@ -45,20 +45,17 @@ class Voting < ActiveRecord::Base
   belongs_to :user
   belongs_to :story
 
-  after_create :increment_votes_count
-  after_destroy :decrement_voting_count
+# private
 
-private
+#   def increment_votes_count
+#     return unless story
+#     Story.increment_counter(:votes_count, story_id)
+#   end
 
-  def increment_votes_count
-    return unless story
-    Story.increment_counter(:votes_count, story_id)
-  end
-
-  def decrement_voting_count
-    return unless story
-    Story.decrement_counter(:votes_count, story_id)
-  end
+#   def decrement_voting_count
+#     return unless story
+#     Story.decrement_counter(:votes_count, story_id)
+#   end
 end
 
 configure do
@@ -200,25 +197,26 @@ put '/api/stories/:id' do
 end
 
 put '/api/stories/:id/vote' do
-  begin
-    Voting.create(user: current_user, story: Story.find_by(id: params[:id]))
-  rescue ActiveRecord::RecordNotUnique
-    json voted: false
-  else
-    json voted: true
-  end
-end
-
-put '/api/stories/:id/unvote' do
-  voting = Voting.find_by(user: current_user, story_id: params[:id])
+  story_id = params[:id]
+  voting = Voting.find_by(user_id: current_user.id, story_id: story_id)
+  increment = false
   if voting
-    voting.destroy
-    json unvoted: true
+    if voting.count < 10
+      Voting.increment_counter(:count, voting.id)
+      increment = true
+    end
   else
-    json unvoted: false
+    Voting.create(user_id: current_user.id, story_id: story_id)
+    increment = true
+  end
+
+  if increment
+    Story.increment_counter(:votes_count, story_id)
+    json voted: true
+  else
+    json voted: false
   end
 end
-
 
 # only for development
 if settings.development?

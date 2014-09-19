@@ -192,30 +192,15 @@ app.controller('SingleStoryCtrl', ['$http', '$routeParams',
     });
   };
 
-  this.unvote = function() {
-    var _this = this;
-    if (this.story.voted) {
-      $http.put('/api/stories/' + this.story.id + '/unvote')
-      .success(function(unvoted) {
-        _this.story.voted = false;
-        if (unvoted) {
-          _this.story.votes_count -= 1;
-        }
-      });
-    }
-  };
-
   this.vote = function() {
     var _this = this;
-    if (!this.story.voted) {
-      $http.put('/api/stories/' + this.story.id + '/vote')
-      .success(function(voted) {
-        _this.story.voted = true;
-        if (voted) {
-          _this.story.votes_count += 1;
-        }
-      });
-    }
+    $http.put('/api/stories/' + this.story.id + '/vote')
+    .success(function(data) {
+      var voted = data.voted;
+      if (voted) {
+        _this.story.votes_count += 1;
+      }
+    });
   };
 
   this.loadStory();

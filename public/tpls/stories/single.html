@@ -10,18 +10,9 @@
     {{singleStory.story.author.name}}&nbsp;
     <span class="text-muted">@{{singleStory.story.author.screen_name}}</span>
   </span>
-  <button class="btn btn-sm btn-primary"
-      ng-click="singleStory.vote()"
-      ng-if="!singleStory.story.voted">
-    <i class="fa fa-thumbs-up fa-lg" ng-if="!singleStory.story.voted"></i>
-    <i class="fa fa-check fa-lg" ng-if="singleStory.story.voted"></i>
+  <button class="btn btn-sm btn-primary" ng-click="singleStory.vote()">
+    <i class="fa fa-thumbs-up fa-lg"></i>
     こわいね
-  </button>
-  <button class="btn btn-sm btn-primary"
-      ng-click="singleStory.unvote()"
-      ng-if="singleStory.story.voted">
-    <i class="fa fa-times fa-lg"></i>
-    こわいねを取り消す
   </button>
   <span class="votes_counter">{{singleStory.story.votes_count}}</span>
   <div class="body">{{singleStory.story.body}}</div>
